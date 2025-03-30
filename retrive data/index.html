@@ -8,13 +8,18 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!--pdf Generator  -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
-
     <!-- Custom Styles -->
  <link rel="stylesheet" href="style.css">
+
+ <!-- Email -->
+ <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+
  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script> -->
+
+ <!-- PDf -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
 
     <script type="module" src="script.js"></script>
 </head>
@@ -34,7 +39,9 @@
                         <th>Gender</th>
                         <th>DOB</th>
                         <th>Address</th>
-                        <th>Actions</th> <!-- Added Actions Column -->
+                        <th>Opertion</th> 
+                        <th>Actions</th><!-- Added Actions Column -->
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="usersTable">
@@ -46,6 +53,7 @@
 
     <!-- Bootstrap JS (Optional for interactive elements) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>
