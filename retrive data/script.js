@@ -59,6 +59,8 @@ function fetchUsers() {
                             <td>
                                 <button class="btn btn-primary btn-sm" id="edit-btn-${key}" onclick="toggleEdit('${key}')">Edit</button>
                                 <button class="btn btn-danger btn-sm" onclick="deleteUser('${key}')">Delete</button>
+                            <button class="btn btn-success btn-sm" onclick="generatePDF('${key}')">PDF</button> <!-- New Button -->
+
                             </td>
                         </tr>`;
                     usersTable.innerHTML += row;
@@ -151,5 +153,31 @@ window.deleteUser = function (userId) {
     }
 };
 
+window.generatePDF = function (userId) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const fullName = document.getElementById(`name-text-${userId}`).innerText;
+    const email = document.getElementById(`email-text-${userId}`).innerText;
+    const phone = document.getElementById(`phone-text-${userId}`).innerText;
+    const gender = document.getElementById(`gender-text-${userId}`).innerText;
+    const dob = document.getElementById(`dob-text-${userId}`).innerText;
+    const address = document.getElementById(`address-text-${userId}`).innerText;
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("User Details", 10, 10);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(`Full Name: ${fullName}`, 10, 20);
+    doc.text(`Email: ${email}`, 10, 30);
+    doc.text(`Phone: ${phone}`, 10, 40);
+    doc.text(`Gender: ${gender}`, 10, 50);
+    doc.text(`DOB: ${dob}`, 10, 60);
+    doc.text(`Address: ${address}`, 10, 70);
+
+    doc.save(`${fullName}_Details.pdf`);
+};
 // Initial Fetch
 fetchUsers();
