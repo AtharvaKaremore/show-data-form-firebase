@@ -197,7 +197,7 @@ window.sendEmail = function(userId) {
         return;
     }
     
-    fetch("https://email-sender-1-jtht.onrender.com/send-email", {
+    fetch("https://email-sender-zlff.onrender.com/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       
