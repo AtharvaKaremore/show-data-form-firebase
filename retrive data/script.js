@@ -186,42 +186,37 @@ window.generatePDF = function (userId) {
     doc.save(`${fullName}_Details.pdf`);
 };
 
-// Email
-// YOUR_PUBLIC_KEY
 
-emailjs.init("qxCDfkXrVp1Ayg3yX"); 
-// Function to send an email with CC and BCC
-window.sendEmail = function (userId) {
+
+window.sendEmail = function(userId) {
     const email = document.getElementById(`email-text-${userId}`).innerText;
     const fullName = document.getElementById(`name-text-${userId}`).innerText;
-
-    if (email === "N/A") {
+    
+    if (!email) {
         alert("No email available for this user.");
         return;
     }
-
-    // EmailJS parameters
-    const templateParams = {
-        to_email: email,             // Recipient Email
-        to_name: fullName,           // Recipient Name
-        from_email: "karemoreatharva7@gmail.com", // Admin Email
-        cc_email: "cc@example.com",  // CC Email (optional)
-        bcc_email: "bcc@example.com", // BCC Email (optional)
-        message: `Dear ${fullName},\n\nYou have being Successfully Submit the form.\n\nBest regards,\nYour Team`
-    };
-
-    // Send email using EmailJS
-    // Service key , template key
-    emailjs.send("service_rd5vwl9", "template_ip1nt1v", templateParams)
-        .then((response) => {
-            console.log("Email sent successfully!", response.status, response.text);
-            alert(`Email successfully sent to ${fullName} (${email})`);
-        })
-        .catch((error) => {
-            console.error("Email send error:", error);
-            alert("Failed to send email. Please try again.");
-        });
-};
+    
+    fetch("https://email-sender-1-jtht.onrender.com/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      
+        body: JSON.stringify({
+            to: email,
+            subject: "Important Notification",
+            message: `Dear ${fullName},<br><br>You have to be successfully Register.<br><br>Best regards,<br>Your Team`
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert("Email sent successfully!");
+        // console.log(data);
+    })
+    .catch(error => {
+        alert("Failed to send email.");
+        console.error("Error:", error);
+    });
+}
 
 
 // Initial Fetch
