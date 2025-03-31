@@ -204,7 +204,22 @@ window.sendEmail = function(userId) {
         body: JSON.stringify({
             to: email,
             subject: "Important Notification",
-            message: `Dear ${fullName},<br><br>You have to be successfully Register.<br><br>Best regards,<br>Your Team`
+              message: `
+            <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+                <p>Dear ${fullName},</p>
+                
+                <p>Congratulations! 🎉 You have successfully registered.</p>
+                
+                <p>We are excited to have you on board. If you have any questions, feel free to reach out to our support team.</p>
+                
+                <p>Best Regards,</p>
+                <p><strong>Your Team</strong></p>
+                <hr>
+                <p style="font-size: 12px; color: gray;">
+                    If you didn't request this email, please ignore it.
+                </p>
+            </div>
+        `
         }),
     })
     .then(response => response.json())
