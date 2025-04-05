@@ -230,7 +230,7 @@ window.sendEmail = function(userId) {
     const pdfDataUri = EmailgeneratePDF(userId); // from your generatePDF function
     const base64PDF = pdfDataUri.split(',')[1]; // strip "data:application/pdf;base64,"
 
-    fetch("http://localhost:3000/send-email", {
+    fetch("https://email-sender-lvmx.onrender.com/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
