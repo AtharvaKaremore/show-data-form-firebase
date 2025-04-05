@@ -188,50 +188,78 @@ window.generatePDF = function (userId) {
 
 
 
+function EmailgeneratePDF(userId) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const fullName = document.getElementById(`name-text-${userId}`).innerText;
+    const email = document.getElementById(`email-text-${userId}`).innerText;
+    const phone = document.getElementById(`phone-text-${userId}`).innerText;
+    const gender = document.getElementById(`gender-text-${userId}`).innerText;
+    const dob = document.getElementById(`dob-text-${userId}`).innerText;
+    const address = document.getElementById(`address-text-${userId}`).innerText;
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("User Details", 10, 10);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(`Full Name: ${fullName}`, 10, 20);
+    doc.text(`Email: ${email}`, 10, 30);
+    doc.text(`Phone: ${phone}`, 10, 40);
+    doc.text(`Gender: ${gender}`, 10, 50);
+    doc.text(`DOB: ${dob}`, 10, 60);
+    doc.text(`Address: ${address}`, 10, 70);
+
+   
+    return doc.output('datauristring');
+};
+// Email
+// YOUR_PUBLIC_KEY
 window.sendEmail = function(userId) {
     const email = document.getElementById(`email-text-${userId}`).innerText;
     const fullName = document.getElementById(`name-text-${userId}`).innerText;
-    
+
     if (!email) {
         alert("No email available for this user.");
         return;
     }
-    
-    fetch("https://email-sender-zlff.onrender.com/send-email", {
+
+    // Generate the PDF and get base64
+    const pdfDataUri = EmailgeneratePDF(userId); // from your generatePDF function
+    const base64PDF = pdfDataUri.split(',')[1]; // strip "data:application/pdf;base64,"
+
+    fetch("http://localhost:3000/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-      
         body: JSON.stringify({
             to: email,
-            subject: "Important Notification",
-              message: `
-            <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-                <p>Dear ${fullName},</p>
-                
-                <p>Congratulations! 🎉 You have successfully registered.</p>
-                
-                <p>We are excited to have you on board. If you have any questions, feel free to reach out to our support team.</p>
-                
-                <p>Best Regards,</p>
-                <p><strong>Your Team</strong></p>
-                <hr>
-                <p style="font-size: 12px; color: gray;">
-                    If you didn't request this email, please ignore it.
-                </p>
-            </div>
-        `
+            subject: "Registration detail",
+            message: `
+                <div>
+                    <p>Dear ${fullName},</p>
+                    <p>You are registered successfully. Your details are in the attached PDF.</p>
+                    <p>– Your Team</p>
+                </div>
+            `,
+            attachment: {
+                filename: `${fullName}_Details.pdf`,
+                content: base64PDF,
+                contentType: 'application/pdf'
+            }
         }),
     })
     .then(response => response.json())
     .then(data => {
         alert("Email sent successfully!");
-        // console.log(data);
+        console.log(data);
     })
     .catch(error => {
         alert("Failed to send email.");
         console.error("Error:", error);
     });
-}
+};
 
 
 // Initial Fetch
